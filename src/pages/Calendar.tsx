@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import Layout from '../components/Layout';
 import CalendarView from '../components/CalendarView';
 import BookingButton from '../components/BookingButton';
 import Surprise from '../components/Surprise';
@@ -45,23 +44,23 @@ const Calendar = () => {
   };
 
   return (
-    <Layout>
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-pastel-blue/30 to-pastel-pink/30 p-4">
       <motion.div
-        className="max-w-5xl mx-auto"
+        className="max-w-2xl mx-auto pt-8"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         <motion.div variants={itemVariants} className="mb-8 text-center">
           <h1 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-brand-primary to-brand-secondary">
-            Boka en Tid
+            Välkomna till Olle-Kalendern
           </h1>
           <p className="text-brand-dark/70 max-w-2xl mx-auto">
-            Välj ett datum för att boka en tid. Se om du har tur att kunna fånga honom!
+            Försök fånga den mystiska Olle genom att trycka på knappen (om du kan)!
           </p>
         </motion.div>
         
-        <motion.div variants={itemVariants}>
+        <motion.div variants={itemVariants} className="max-h-[400px] overflow-y-auto">
           <CalendarView 
             onSelectDate={handleDateSelect} 
             selectedDate={selectedDate} 
@@ -85,16 +84,16 @@ const Calendar = () => {
             </h2>
             
             <p className="text-center mb-6 text-brand-dark/70">
-              Försök att fånga Olle genom att klicka på knappen nedan!
+              Försök att fånga Olle om du kan!
             </p>
             
             <BookingButton 
               onClick={handleBookingClick} 
-              text="Boka honom" 
+              text="Fånga Olle (om du kan)" 
             />
             
             <p className="text-center mt-4 text-sm text-brand-dark/60 italic">
-              Knappen kanske är lite blyg och försöker komma undan...
+              Tips: Knappen är lite skygg... 🤫
             </p>
           </motion.div>
         )}
@@ -104,7 +103,7 @@ const Calendar = () => {
         isVisible={showSurprise}
         onClose={closeSurprise}
       />
-    </Layout>
+    </div>
   );
 };
 

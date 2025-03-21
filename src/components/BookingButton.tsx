@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
@@ -8,8 +9,8 @@ interface BookingButtonProps {
 
 const BookingButton: React.FC<BookingButtonProps> = ({ onClick, text }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isMoving, setIsMoving] = useState(false);
-  const [attempts, setAttempts] = useState(0);
+  const [hoverCount, setHoverCount] = useState(0);
+  const [canMove, setCanMove] = useState(true);
   const buttonRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -28,65 +29,22 @@ const BookingButton: React.FC<BookingButtonProps> = ({ onClick, text }) => {
     };
   };
 
-  const handleClick = () => {
-    setAttempts(attempts + 1);
+  const handleHover = () => {
+    if (!canMove) return;
     
-    // After 5 attempts or 20% random chance after 3 attempts, let them click it
-    if (attempts >= 5 || (attempts >= 3 && Math.random() < 0.2)) {
-      onClick();
-      return;
-    }
-    
-    setIsMoving(true);
-    setTimeout(() => setIsMoving(false), 500);
+    setHoverCount(prev => prev + 1);
     setPosition(getRandomPosition());
-  };
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!buttonRef.current || !containerRef.current || !isMoving) return;
-      
-      const buttonRect = buttonRef.current.getBoundingClientRect();
-      const containerRect = containerRef.current.getBoundingClientRect();
-      
-      const buttonCenterX = buttonRect.left + buttonRect.width / 2;
-      const buttonCenterY = buttonRect.top + buttonRect.height / 2;
-      
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
-      
-      const distance = Math.sqrt(
-        Math.pow(mouseX - buttonCenterX, 2) + Math.pow(mouseY - buttonCenterY, 2)
-      );
-      
-      // If mouse is getting close to the button, move it away
-      if (distance < 200) {
-        const angle = Math.atan2(mouseY - buttonCenterY, mouseX - buttonCenterX);
-        const moveAwayX = Math.cos(angle + Math.PI) * 100;
-        const moveAwayY = Math.sin(angle + Math.PI) * 100;
-        
-        const maxX = containerRect.width - buttonRect.width;
-        const maxY = containerRect.height - buttonRect.height;
-        
-        let newX = position.x + moveAwayX;
-        let newY = position.y + moveAwayY;
-        
-        // Keep button within container bounds
-        newX = Math.max(-maxX / 2, Math.min(newX, maxX / 2));
-        newY = Math.max(-maxY / 2, Math.min(newY, maxY / 2));
-        
-        setPosition({ x: newX, y: newY });
-      }
-    };
     
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [position, isMoving]);
+    // Stop moving after 3 hovers
+    if (hoverCount >= 2) {
+      setCanMove(false);
+    }
+  };
 
   return (
     <div 
       ref={containerRef} 
-      className="relative w-full h-[300px] flex items-center justify-center overflow-hidden"
+      className="relative w-full h-[200px] flex items-center justify-center overflow-hidden"
     >
       <motion.div
         ref={buttonRef}
@@ -98,9 +56,10 @@ const BookingButton: React.FC<BookingButtonProps> = ({ onClick, text }) => {
         }}
       >
         <motion.button
-          onClick={handleClick}
+          onClick={onClick}
+          onHoverStart={canMove ? handleHover : undefined}
           className="bg-brand-secondary text-white px-8 py-4 rounded-lg font-medium shadow-button transition-all"
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: canMove ? 1.05 : 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
           {text}

@@ -3,12 +3,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import Index from "./pages/Index";
-import Quiz from "./pages/Quiz";
 import Calendar from "./pages/Calendar";
-import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -20,10 +17,9 @@ const App = () => (
       <BrowserRouter>
         <AnimatePresence mode="wait">
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/quiz" element={<Quiz />} />
+            <Route path="/" element={<Calendar />} />
             <Route path="/calendar" element={<Calendar />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </AnimatePresence>
       </BrowserRouter>

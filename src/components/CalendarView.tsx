@@ -14,7 +14,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
   
   const renderHeader = () => {
     return (
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-2">
         <motion.button
           className="p-2 rounded-full bg-white/70 text-brand-dark hover:bg-brand-primary hover:text-white transition-all duration-300"
           whileHover={{ scale: 1.1 }}
@@ -23,7 +23,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
         >
           &lt;
         </motion.button>
-        <h2 className="text-xl font-medium text-brand-dark">
+        <h2 className="text-lg font-medium text-brand-dark">
           {format(currentMonth, 'MMMM yyyy', { locale: sv })}
         </h2>
         <motion.button
@@ -39,24 +39,24 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
   };
 
   const renderDays = () => {
-    const dateFormat = 'EEEE';
+    const dateFormat = 'EEEEEE'; // Use shortened day names
     const days = [];
     const startDate = startOfWeek(currentMonth, { weekStartsOn: 1 });
 
     for (let i = 0; i < 7; i++) {
       days.push(
-        <div className="text-center font-medium text-brand-dark/70 text-sm py-2" key={i}>
+        <div className="text-center font-medium text-brand-dark/70 text-xs py-1" key={i}>
           {format(addDays(startDate, i), dateFormat, { locale: sv })}
         </div>
       );
     }
 
-    return <div className="grid grid-cols-7 gap-2">{days}</div>;
+    return <div className="grid grid-cols-7 gap-1">{days}</div>;
   };
 
   const renderCells = () => {
     const startDate = startOfWeek(currentMonth, { weekStartsOn: 1 });
-    const endDate = addDays(startDate, 27);
+    const endDate = addDays(startDate, 13); // Show only 2 weeks instead of 4
     const rows = [];
     let days = [];
     let day = startDate;
@@ -74,7 +74,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
         days.push(
           <motion.div 
             className={`
-              relative p-4 h-24 sm:h-32 rounded-lg text-center cursor-pointer transition-colors duration-300
+              relative p-1 h-12 sm:h-16 rounded-lg text-center cursor-pointer transition-colors duration-300
               ${isToday ? 'border-2 border-brand-primary' : 'border border-gray-200'}
               ${isSelected ? 'bg-brand-primary text-white' : (isPast ? 'bg-gray-100' : 'bg-white')}
               ${!isCurrentMonth ? 'opacity-50' : ''}
@@ -85,14 +85,14 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
           >
-            <span className={`text-sm ${isSelected ? 'text-white/80' : 'text-brand-dark/60'}`}>
+            <span className={`text-xs ${isSelected ? 'text-white/80' : 'text-brand-dark/60'}`}>
               {format(day, 'd', { locale: sv })}
             </span>
             
             {isFuture && (
-              <div className="mt-2 text-xs">
+              <div className="mt-1 text-[8px]">
                 {Math.random() > 0.7 ? (
-                  <div className="bg-pastel-green text-brand-dark/70 rounded px-1 py-0.5">Tillgänglig</div>
+                  <div className="bg-pastel-green text-brand-dark/70 rounded px-1 py-0.5">Ledig</div>
                 ) : (
                   <div className="bg-pastel-pink text-brand-secondary/80 rounded px-1 py-0.5">Upptagen</div>
                 )}
@@ -100,13 +100,13 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
             )}
             
             {isPast && (
-              <div className="mt-2 text-xs">
-                <div className="bg-gray-200 text-gray-500 rounded px-1 py-0.5">Passerad</div>
+              <div className="mt-1 text-[8px]">
+                <div className="bg-gray-200 text-gray-500 rounded px-1 py-0.5">Passad</div>
               </div>
             )}
             
             {isToday && (
-              <div className="mt-2 text-xs">
+              <div className="mt-1 text-[8px]">
                 <div className="bg-brand-accent/20 text-brand-accent rounded px-1 py-0.5">Idag</div>
               </div>
             )}
@@ -116,18 +116,18 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
       }
       
       rows.push(
-        <div className="grid grid-cols-7 gap-2" key={day.toString()}>
+        <div className="grid grid-cols-7 gap-1" key={day.toString()}>
           {days}
         </div>
       );
       days = [];
     }
     
-    return <div className="space-y-2">{rows}</div>;
+    return <div className="space-y-1">{rows}</div>;
   };
 
   return (
-    <div className="glass-panel p-6">
+    <div className="glass-panel p-3">
       {renderHeader()}
       {renderDays()}
       {renderCells()}
