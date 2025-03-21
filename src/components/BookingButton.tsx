@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface BookingButtonProps {
@@ -11,7 +11,6 @@ const BookingButton: React.FC<BookingButtonProps> = ({ onClick, text }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [hoverCount, setHoverCount] = useState(0);
   const [canMove, setCanMove] = useState(true);
-  const buttonRef = useRef<HTMLDivElement>(null);
 
   const getRandomPosition = () => {
     // Get viewport dimensions for full screen movement
@@ -37,27 +36,24 @@ const BookingButton: React.FC<BookingButtonProps> = ({ onClick, text }) => {
   };
 
   return (
-    <div className="relative w-full h-[150px] flex items-center justify-center overflow-visible">
-      <motion.div
-        ref={buttonRef}
-        className="absolute"
-        animate={{
-          x: position.x,
-          y: position.y,
-          transition: { type: "spring", stiffness: 300, damping: 20 }
-        }}
+    <motion.div
+      className="relative"
+      animate={{
+        x: position.x,
+        y: position.y,
+        transition: { type: "spring", stiffness: 300, damping: 20 }
+      }}
+    >
+      <motion.button
+        onClick={onClick}
+        onHoverStart={canMove ? handleHover : undefined}
+        className="bg-brand-secondary text-white px-8 py-4 rounded-lg font-medium shadow-button transition-all"
+        whileHover={{ scale: canMove ? 1.05 : 1.1 }}
+        whileTap={{ scale: 0.95 }}
       >
-        <motion.button
-          onClick={onClick}
-          onHoverStart={canMove ? handleHover : undefined}
-          className="bg-brand-secondary text-white px-8 py-4 rounded-lg font-medium shadow-button transition-all"
-          whileHover={{ scale: canMove ? 1.05 : 1.1 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {text}
-        </motion.button>
-      </motion.div>
-    </div>
+        {text}
+      </motion.button>
+    </motion.div>
   );
 };
 

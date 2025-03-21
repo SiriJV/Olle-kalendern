@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 interface SurpriseProps {
   isVisible: boolean;
@@ -8,6 +10,7 @@ interface SurpriseProps {
 }
 
 const Surprise: React.FC<SurpriseProps> = ({ isVisible, onClose }) => {
+  const navigate = useNavigate();
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
   const [showSpotify, setShowSpotify] = useState(false);
   
@@ -18,21 +21,9 @@ const Surprise: React.FC<SurpriseProps> = ({ isVisible, onClose }) => {
       rickRollAudio.play().catch(error => console.error("Audio playback error:", error));
       setCurrentAudio(rickRollAudio);
       
-      // After 10 seconds, switch to Tupac
-      const timer = setTimeout(() => {
+      return () => {
         if (rickRollAudio) {
           rickRollAudio.pause();
-        }
-        const tupacAudio = new Audio('https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Hit+Em+Up+Intro&filename=mz/Mzg1ODMxNTIzMzg1ODUy_JzthsfvUY24.MP3');
-        tupacAudio.play().catch(error => console.error("Audio playback error:", error));
-        setCurrentAudio(tupacAudio);
-        setShowSpotify(true);
-      }, 10000);
-      
-      return () => {
-        clearTimeout(timer);
-        if (currentAudio) {
-          currentAudio.pause();
         }
       };
     } else {
@@ -43,6 +34,24 @@ const Surprise: React.FC<SurpriseProps> = ({ isVisible, onClose }) => {
       setShowSpotify(false);
     }
   }, [isVisible]);
+
+  const handleNextClick = () => {
+    // Stop the Rick Roll audio
+    if (currentAudio) {
+      currentAudio.pause();
+    }
+    
+    // Play Tupac
+    const tupacAudio = new Audio('https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Hit+Em+Up+Intro&filename=mz/Mzg1ODMxNTIzMzg1ODUy_JzthsfvUY24.MP3');
+    tupacAudio.play().catch(error => console.error("Audio playback error:", error));
+    setCurrentAudio(tupacAudio);
+    setShowSpotify(true);
+  };
+  
+  const handleReturnHome = () => {
+    onClose();
+    navigate('/');
+  };
 
   if (!isVisible) return null;
 
@@ -75,14 +84,14 @@ const Surprise: React.FC<SurpriseProps> = ({ isVisible, onClose }) => {
               alt="Surprise GIF" 
               className="max-h-[70vh] rounded-lg mb-6"
             />
-            <h2 className="text-white text-2xl mb-6">DU BLEV RICK-ROLLAD!</h2>
+            <h2 className="text-white text-2xl mb-6">Git Gud</h2>
             <motion.button
               className="bg-brand-primary text-white px-6 py-3 rounded-lg font-medium"
-              onClick={() => setShowSpotify(true)}
+              onClick={handleNextClick}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Nästa skämt tack!
+              Nästa
             </motion.button>
           </motion.div>
         ) : (
@@ -92,7 +101,6 @@ const Surprise: React.FC<SurpriseProps> = ({ isVisible, onClose }) => {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-white text-2xl mb-6">Git Gud - Sadboy Edition</h2>
             <iframe 
               src="https://open.spotify.com/embed/playlist/37i9dQZF1DX59NCqCqJtoH" 
               width="100%" 
@@ -102,22 +110,34 @@ const Surprise: React.FC<SurpriseProps> = ({ isVisible, onClose }) => {
               className="mb-8 rounded-lg"
             ></iframe>
             
+            <h3 className="text-white text-xl mb-4">Hjälplinje:</h3>
             <p className="text-white text-lg mb-8">
               För dagar utan Olle, ring någon och prata. Du klarar detta.
             </p>
             
-            <p className="text-white text-lg mb-6">
-              Kontakt: 0800-123456
-            </p>
+            <a href="tel:0800-123456" className="text-brand-primary text-lg mb-6 block hover:underline">
+              0800-123456
+            </a>
             
-            <motion.button
-              className="bg-brand-primary text-white px-6 py-3 rounded-lg font-medium"
-              onClick={onClose}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Stäng
-            </motion.button>
+            <div className="flex justify-center gap-4 mt-6">
+              <motion.button
+                className="bg-brand-secondary text-white px-6 py-3 rounded-lg font-medium"
+                onClick={handleReturnHome}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Tillbaka till början
+              </motion.button>
+              
+              <motion.button
+                className="bg-brand-primary text-white px-6 py-3 rounded-lg font-medium"
+                onClick={onClose}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Stäng
+              </motion.button>
+            </div>
           </motion.div>
         )}
       </motion.div>

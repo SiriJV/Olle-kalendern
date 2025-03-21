@@ -46,7 +46,7 @@ const Calendar = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-pastel-blue/30 to-pastel-pink/30 p-4">
       <motion.div
-        className="max-w-lg mx-auto pt-8" // Changed from max-w-2xl to max-w-lg to make it smaller
+        className="max-w-lg mx-auto pt-8"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -67,34 +67,17 @@ const Calendar = () => {
           />
         </motion.div>
         
-        {showBookingArea && (
+        {selectedDate && (
           <motion.div
-            className="mt-4 glass-panel p-4"
+            className="mt-4 flex justify-end"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-lg font-medium mb-2 text-center">
-              Boka för {selectedDate && new Intl.DateTimeFormat('sv-SE', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-              }).format(selectedDate)}
-            </h2>
-            
-            <p className="text-center mb-4 text-brand-dark/70">
-              Försök att fånga Olle om du kan!
-            </p>
-            
             <BookingButton 
               onClick={handleBookingClick} 
               text="Fånga Olle (om du kan)" 
             />
-            
-            <p className="text-center mt-2 text-sm text-brand-dark/60 italic">
-              Tips: Knappen är lite skygg... 🤫
-            </p>
           </motion.div>
         )}
       </motion.div>
