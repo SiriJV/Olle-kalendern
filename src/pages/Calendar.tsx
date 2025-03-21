@@ -46,21 +46,21 @@ const Calendar = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-pastel-blue/30 to-pastel-pink/30 p-4">
       <motion.div
-        className="max-w-2xl mx-auto pt-8"
+        className="max-w-lg mx-auto pt-8" // Changed from max-w-2xl to max-w-lg to make it smaller
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={itemVariants} className="mb-8 text-center">
-          <h1 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-brand-primary to-brand-secondary">
+        <motion.div variants={itemVariants} className="mb-6 text-center">
+          <h1 className="text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-brand-primary to-brand-secondary">
             Välkomna till Olle-Kalendern
           </h1>
-          <p className="text-brand-dark/70 max-w-2xl mx-auto">
+          <p className="text-brand-dark/70 max-w-md mx-auto">
             Försök fånga den mystiska Olle genom att trycka på knappen (om du kan)!
           </p>
         </motion.div>
         
-        <motion.div variants={itemVariants} className="max-h-[400px] overflow-y-auto">
+        <motion.div variants={itemVariants} className="max-h-[250px] overflow-y-auto mb-4">
           <CalendarView 
             onSelectDate={handleDateSelect} 
             selectedDate={selectedDate} 
@@ -69,12 +69,12 @@ const Calendar = () => {
         
         {showBookingArea && (
           <motion.div
-            className="mt-8 glass-panel p-6"
+            className="mt-4 glass-panel p-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-xl font-medium mb-4 text-center">
+            <h2 className="text-lg font-medium mb-2 text-center">
               Boka för {selectedDate && new Intl.DateTimeFormat('sv-SE', { 
                 weekday: 'long', 
                 year: 'numeric', 
@@ -83,7 +83,7 @@ const Calendar = () => {
               }).format(selectedDate)}
             </h2>
             
-            <p className="text-center mb-6 text-brand-dark/70">
+            <p className="text-center mb-4 text-brand-dark/70">
               Försök att fånga Olle om du kan!
             </p>
             
@@ -92,7 +92,7 @@ const Calendar = () => {
               text="Fånga Olle (om du kan)" 
             />
             
-            <p className="text-center mt-4 text-sm text-brand-dark/60 italic">
+            <p className="text-center mt-2 text-sm text-brand-dark/60 italic">
               Tips: Knappen är lite skygg... 🤫
             </p>
           </motion.div>

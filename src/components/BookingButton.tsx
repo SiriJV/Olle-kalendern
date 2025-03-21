@@ -12,16 +12,11 @@ const BookingButton: React.FC<BookingButtonProps> = ({ onClick, text }) => {
   const [hoverCount, setHoverCount] = useState(0);
   const [canMove, setCanMove] = useState(true);
   const buttonRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const getRandomPosition = () => {
-    if (!containerRef.current || !buttonRef.current) return { x: 0, y: 0 };
-    
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const buttonRect = buttonRef.current.getBoundingClientRect();
-    
-    const maxX = containerRect.width - buttonRect.width;
-    const maxY = containerRect.height - buttonRect.height;
+    // Get viewport dimensions for full screen movement
+    const maxX = window.innerWidth - 200;
+    const maxY = window.innerHeight - 100;
     
     return {
       x: Math.random() * maxX - maxX / 2,
@@ -42,10 +37,7 @@ const BookingButton: React.FC<BookingButtonProps> = ({ onClick, text }) => {
   };
 
   return (
-    <div 
-      ref={containerRef} 
-      className="relative w-full h-[200px] flex items-center justify-center overflow-hidden"
-    >
+    <div className="relative w-full h-[150px] flex items-center justify-center overflow-visible">
       <motion.div
         ref={buttonRef}
         className="absolute"
