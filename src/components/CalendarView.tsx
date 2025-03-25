@@ -16,18 +16,18 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
     return (
       <div className="flex items-center justify-between mb-2">
         <motion.button
-          className="p-2 rounded-full bg-white/70 text-brand-dark hover:bg-brand-primary hover:text-white transition-all duration-300"
+          className="p-2 rounded-sm bg-brand-primary/10 text-brand-light/70 hover:bg-brand-primary hover:text-white transition-all duration-300"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setCurrentMonth(addWeeks(currentMonth, -1))}
         >
           &lt;
         </motion.button>
-        <h2 className="text-lg font-medium text-brand-dark">
+        <h2 className="text-lg font-medium text-brand-light/70">
           {format(currentMonth, 'MMMM yyyy', { locale: sv })}
         </h2>
         <motion.button
-          className="p-2 rounded-full bg-white/70 text-brand-dark hover:bg-brand-primary hover:text-white transition-all duration-300"
+          className="p-2 rounded-sm bg-brand-primary/10 text-brand-light/70 hover:bg-brand-primary hover:text-white transition-all duration-300"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setCurrentMonth(addWeeks(currentMonth, 1))}
@@ -45,7 +45,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
 
     for (let i = 0; i < 7; i++) {
       days.push(
-        <div className="text-center font-medium text-brand-dark/70 text-xs py-1" key={i}>
+        <div className="text-center font-medium text-brand-light/70 text-xs py-1" key={i}>
           {format(addDays(startDate, i), dateFormat, { locale: sv })}
         </div>
       );
@@ -76,7 +76,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
             className={`
               relative p-1 h-12 sm:h-16 rounded-lg text-center cursor-pointer transition-colors duration-300
               ${isToday ? 'border-2 border-brand-primary' : 'border border-gray-200'}
-              ${isSelected ? 'bg-brand-primary text-white' : (isPast ? 'bg-gray-100' : 'bg-white')}
+              ${isSelected ? 'bg-white text-white' : (isPast ? 'bg-gray-100' : 'bg-white')}
               ${!isCurrentMonth ? 'opacity-50' : ''}
               hover:border-brand-primary
             `}
@@ -85,7 +85,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
           >
-            <span className={`text-xs ${isSelected ? 'text-white/80' : 'text-brand-dark/60'}`}>
+            <span className={`text-xs ${isSelected ? 'text-black' : 'text-black'}`}>
               {format(day, 'd', { locale: sv })}
             </span>
             
@@ -101,7 +101,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
             
             {isPast && (
               <div className="mt-1 text-[8px]">
-                <div className="bg-gray-200 text-gray-500 rounded px-1 py-0.5">Passad</div>
+                <div className="bg-gray-200 text-gray-500 rounded px-1 py-0.5">Passerad</div>
               </div>
             )}
             
@@ -127,7 +127,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
   };
 
   return (
-    <div className="glass-panel p-3">
+    <div className="p-3 rounded-sm">
       {renderHeader()}
       {renderDays()}
       {renderCells()}
@@ -136,3 +136,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({ onSelectDate, selectedDate 
 };
 
 export default CalendarView;
+
+// whole calendar
+//p-3 border-0 bg-brand-primary/10

@@ -81,6 +81,7 @@
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold tracking-tight;
+    font-family: monospace;
   }
 
   h1 {
@@ -97,6 +98,19 @@
 
   p {
     @apply leading-7;
+    font-family: monospace;
+  }
+
+  button {
+    font-family: monospace;
+  }
+
+  span {
+    font-family: monospace;
+  }
+
+  div {
+    font-family: monospace;
   }
 
   .container {
@@ -105,13 +119,18 @@
 }
 
 @layer components {
-  .glass-panel {
+  /* .glass-panel {
     @apply bg-white/70 backdrop-blur-lg rounded-xl border border-white/20 shadow-glass;
-  }
+  } */
+
+  .glass-panel {
+    @apply bg-black/70 backdrop-blur-lg rounded-xl border border-black/20 shadow-glass;
+}
+
   
-  .glass-card {
+  /* .glass-card {
     @apply bg-white/90 backdrop-blur-md rounded-xl border border-white/30 shadow-card overflow-hidden transition-all duration-300 hover:shadow-hover;
-  }
+  } */
   
   .btn-primary {
     @apply bg-brand-primary text-white font-medium py-3 px-6 rounded-lg shadow-button transition-all duration-300 hover:shadow-hover hover:translate-y-[-2px] active:translate-y-0 active:shadow-button;

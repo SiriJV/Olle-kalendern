@@ -8,6 +8,8 @@ import { AnimatePresence } from "framer-motion";
 import Home from "./pages/Home";
 import Quiz from "./pages/Quiz";
 import Calendar from "./pages/Calendar";
+import './App.css';
+import Surprise from "./components/Surprise";
 
 const queryClient = new QueryClient();
 

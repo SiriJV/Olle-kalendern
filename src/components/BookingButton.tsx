@@ -47,7 +47,7 @@ const BookingButton: React.FC<BookingButtonProps> = ({ onClick, text }) => {
       <motion.button
         onClick={onClick}
         onHoverStart={canMove ? handleHover : undefined}
-        className="bg-brand-secondary text-white px-8 py-4 rounded-lg font-medium shadow-button transition-all"
+        className="bg-brand-secondary text-white px-4 py-2 rounded-sm font-medium shadow-button transition-all text-lg"
         whileHover={{ scale: canMove ? 1.05 : 1.1 }}
         whileTap={{ scale: 0.95 }}
       >

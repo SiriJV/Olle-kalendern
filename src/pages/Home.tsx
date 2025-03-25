@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,8 +25,31 @@ const Home = () => {
     }
   };
 
+  const HomeAudio = 'public/audio/rat-dance-music.mp3';
+
+    useEffect(() => {
+      const audio = new Audio(HomeAudio);
+      audio.loop = true;
+      audio.volume = 0.5;
+    
+      const playAudio = () => {
+        audio.play().catch(err => console.log("Autoplay blocked:", err));
+      };
+    
+      document.addEventListener('DOMContentLoaded', playAudio); // Ensure it plays on page load
+    
+      playAudio(); // Try playing immediately
+    
+      return () => {
+        audio.pause();
+        audio.currentTime = 0;
+      };
+    }, []);
+    
+    
+
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-pastel-blue/30 to-pastel-pink/30 p-4">
+    <div className="min-h-screen flex flex-col p-4 justify-center">
       <div className="flex flex-col items-center justify-center min-h-[80vh]">
         <motion.div 
           className="text-center max-w-xl glass-panel p-8"
@@ -36,15 +59,19 @@ const Home = () => {
         >
           {!showQuizIntro ? (
             <>
-              <div className="glass-card p-6 mb-6 overflow-hidden">
-                <p className="text-lg text-brand-dark">
-                  Hej virgins. En liten fågel viskade i mitt öra att ni är butthurt över att jag snor eran HB. Don't fret! Lösningen är här.
+              <div className="glass-card overflow-hidden">
+                <h3 className="text-brand-light mb-6">Hej virgins!</h3>
+                <p className="text-lg text-left text-brand-light/70 mb-5">
+                  En liten fågel viskade i mitt öra att ni är butthurt över att förlora tid med er homeboy. Don't fret! Lösningen är här.<p/>
+                </p>
+                <p className="text-lg text-left text-brand-light/70">
+                  Eftersom Olles tid är mycket eftertraktad har jag fixat en kalender där ni kan boka honom.
                 </p>
               </div>
               
               <motion.button
                 onClick={handleNextClick}
-                className="bg-brand-secondary text-white px-6 py-3 rounded-lg font-medium"
+                className="bg-brand-secondary text-white mt-6 px-4 py-2 rounded-sm font-medium text-lg"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -53,15 +80,15 @@ const Home = () => {
             </>
           ) : (
             <>
-              <div className="glass-card p-6 mb-6 overflow-hidden">
-                <p className="text-lg text-brand-dark">
+              <div className="glass-card overflow-hidden">
+                <p className="text-lg text-brand-light/70 text-left">
                   Men först... Vänligen bevisa att ni inte är incels genom att svara på dessa frågor om kvinnor i historien.
                 </p>
               </div>
               
               <motion.button
                 onClick={handleStartQuiz}
-                className="bg-brand-primary text-white px-6 py-3 rounded-lg font-medium"
+                className="bg-brand-primary text-white mt-6 px-4 py-2 rounded-sm font-medium text-lg"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
